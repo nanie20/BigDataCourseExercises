@@ -13,6 +13,10 @@ Please note that you will be working on the same Kubernetes cluster as the rest 
 
 Follow this [guide](https://www.youtube.com/watch?v=iKM6P7nRzqI) and verify that you can connect to your virtual machines using SSH. For example, to connect to `bds-g01-n0` (group 1 node 0) you would use the following command: `ssh bds-g01-n0`.
 
+
+**Note:** [virtualresources.sdu.dk](https://virtualresources.sdu.dk).
+
+
 **Note:** We recommend leaving the SSH session open during the exercise hours and running the `kubectl` commands from another terminal on your localhost to keep the same Kubernetes experience as in the previous lectures.
 
 ### Kubeconfig
@@ -109,7 +113,7 @@ MinIO is an S3 compatible object store. It can be deployed using the [bitnami he
 helm install minio oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set defaultBuckets=spark-logs --set auth.rootUser=admin --set auth.rootPassword=password
 ```
 
-**Note:** We set the user to `root` and password to `password` to ensure the username and password are the same. You could use other usernames and passwords but then you need to update the provided files.
+**Note:** We set the user to `admin` and password to `password` to ensure the username and password are the same. You could use other usernames and passwords but then you need to update the provided files.
 
 MinIO Console is a web interface for MinIO. The port for the console is port `9001`.
 
@@ -145,8 +149,7 @@ A file containing a SparkApplication that will run the pi estimation program has
 
 **Task:** Inspect the [02-spark-application.yaml](./02-spark-application.yaml) file
 
-Before you apply the file you need to sign in to MinIO Console and upload any file to a folder called "eventlogs" in the "spark-logs" bucket or the Spark job will fail. 
-The reason you need to upload a file to the folder is because you can't have empty folders in MinIO.
+Before you apply the file you need to sign in to MinIO Console and upload any file to a folder called "eventlogs" in the "spark-logs" bucket or the Spark job will fail. The reason you need to upload a file to the folder is because you can't have empty folders in MinIO.
 
 **Task:** Apply the [02-spark-application.yaml](./02-spark-application.yaml) file and then watch the pods being created using `kubectl get pods -w`
 
