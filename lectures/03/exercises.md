@@ -15,9 +15,7 @@ The objective of this exercise is to deploy a Kafka cluster. We will be using op
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1qO2qGuJNQI/0.jpg)](https://www.youtube.com/watch?v=1qO2qGuJNQI)
 
-For the remaining steps of this exercise is to copy and paste commands into the terminal and for those of you who need further descriptions continue to read here: [strimzi.io/quickstarts](https://strimzi.io/quickstarts/).
-
-**NB:** Make sure you have the Kubernetes cluster running locally and start reading from the section "Deploy Strimzi using installation files" in the above-mentioned [link](https://strimzi.io/quickstarts/).
+For the remaining steps of this exercise is to copy and paste commands into the terminal.
 
 
 #### Essential files
@@ -389,21 +387,21 @@ The module of interest is the [HDFS 2 Sink Connector](https://docs.confluent.io/
     http://127.0.0.1:8083/connectors \
     -H 'Content-Type: application/json' \
     -d '{
-    "name": "hdfs-sink",
-    "config": {
-    "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
-        "tasks.max": "5",
-        "topics": "INGESTION",
-        "hdfs.url": "hdfs://simple-hdfs-namenode-default-0.default:8020",
-        "flush.size": "3",
-        "format.class": "io.confluent.connect.hdfs.json.JsonFormat",
-        "key.converter.schemas.enable":"false",
-        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-        "key.converter.schema.registry.url": "http://kafka-schema-registry.kafka:8081", 
-        "value.converter.schemas.enable":"false"
-        "value.converter.schema.registry.url": "http://kafka-schema-registry.kafka:8081", 
-        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    }
+        "name": "hdfs-sink",
+        "config": {
+            "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+            "tasks.max": "5",
+            "topics": "INGESTION",
+            "hdfs.url": "hdfs://simple-hdfs-namenode-default-0.default:8020",
+            "flush.size": "3",
+            "format.class": "io.confluent.connect.hdfs.json.JsonFormat",
+            "key.converter.schemas.enable":"false",
+            "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+            "key.converter.schema.registry.url": "http://kafka-schema-registry.kafka:8081", 
+            "value.converter.schemas.enable":"false",
+            "value.converter.schema.registry.url": "http://kafka-schema-registry.kafka:8081", 
+            "value.converter": "org.apache.kafka.connect.json.JsonConverter"
+        }
     }'
     ```
   </details>
