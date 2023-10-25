@@ -130,7 +130,7 @@ We will now [create a schema](https://trino.io/docs/current/sql/create-schema.ht
 **Task:** Create a schema
 
 <details>
-<summary><strong>Hint</strong>: Create schema</summary>
+<summary><strong>Hint:</strong> Create schema</summary>
 
 ```SQL
 CREATE SCHEMA IF NOT EXISTS hive.bucket
@@ -145,7 +145,7 @@ Now that a schema has been created, we will [create a table](https://trino.io/do
 **Task:** Create a table using the schema you just made
 
 <details>
-<summary><strong>Hint</strong>: Create table</summary>
+<summary><strong>Hint:</strong> Create table</summary>
 
 ```SQL
 CREATE TABLE hive.bucket.text (line VARCHAR)
@@ -171,7 +171,7 @@ To count words, you can split each line by spaces, then count the words for each
 **Task**: Count the total amount of "words" in the Alice in Wonderland text
 
 <details>
-<summary><strong>Hint</strong>: Count total words</summary>
+<summary><strong>Hint:</strong> Count total words</summary>
 
 ```SQL
 SELECT SUM(CARDINALITY(SPLIT(RTRIM(line), ' ')))
@@ -194,7 +194,7 @@ We will now find the 10 most used words. This is somewhat complex because if you
 **Task:** Find the 10 most used words in the Alice in Wonderland text
 
 <details>
-<summary><strong>Hint</strong>: Top 10 most used words</summary>
+<summary><strong>Hint:</strong> Top 10 most used words</summary>
 
 ```SQL
 SELECT DISTINCT word, COUNT(*) as count -- 4
@@ -266,7 +266,7 @@ We will now create a table for the Backblaze drive data.
 **Task:** Create a table for the Backblaze drive data
 
 <details>
-<summary><strong>Hint</strong>: Create CSV table</summary>
+<summary><strong>Hint:</strong> Create CSV table</summary>
 
 ```SQL
 CREATE TABLE hive.bucket.backblaze (
@@ -305,7 +305,7 @@ We can now try to summarize the data. For example, what is the total count of ea
 - What hard drive model has the largest total capacity?
 
 <details>
-<summary><strong>Hint</strong>: Create SQL query</summary>
+<summary><strong>Hint:</strong> Create SQL query</summary>
 
 ```SQL
 SELECT
@@ -329,7 +329,7 @@ We will be working with MongoDB which is great for storing JSON like records wit
 
 **Note:** We will deploying the minimum configuration for this database in order to reduce the recoruse footprint. 
 
-This exercise is composed of three parts starting wiht a deployment of the MongoDB cluster. Then we would like to revist Kafka Connect similar to [Exercise 06](./../03/exercises.md#exercise-06---kafka-connect-and-hdfs) from lecture 3. And finally we will look into querying JSON records in the database.
+This exercise is composed of three parts starting wiht a deployment of the MongoDB cluster. Then we would like to revist Kafka Connect similar to [Exercise 06](./../03/exercises.md#exercise-6---kafka-connect-and-hdfs) from lecture 3. And finally we will look into querying JSON records in the database.
 
 
 We recommand to create a isolated namespace for the following MongoDB services.
@@ -466,13 +466,13 @@ Multiple approaches for interfacing with MongoDB have been covered in the previo
 
 The objective of this exercise is to configure a Kafka Connect connector that uses the `INGESTION` topic as a source and MongoDB as a sink. Therefore the exercise assumes you have records inside the `INGESTION` topic. 
 
-**Task:** If the `INGESTION` topic is empty we recommend revisiting [Exercise 03](./../03/exercises.md#exercise-03---produce-messages-to-kafka-using-python) from lecture 3 and re-establish the Kafka produce to create new records.
+**Task:** If the `INGESTION` topic is empty we recommend revisiting [Exercise 03](./../03/exercises.md#exercise-3---produce-messages-to-kafka-using-python) from lecture 3 and re-establish the Kafka produce to create new records.
 
 **Task:** Configure a Kafka Connect connector to move records from Kafka to MongoDB.
 
-**Hint:** This task can be solved with multiple approaches. Please start by revisiting the concept in [Exercise 06](./../03/exercises.md#exercise-06---kafka-connect-and-hdfs) from lecture 3.
+**Hint:** This task can be solved with multiple approaches. Please start by revisiting the concept in [Exercise 06](./../03/exercises.md#exercise-6---kafka-connect-and-hdfs) from lecture 3.
 
-**Hint:** Then read the documentation here: [Configure the Sink Connector](https://www.mongodb.com/docs/kafka-connector/current/tutorials/sink-connector/#configure-the-sink-connector). The documentation suggests to post the configuration to the Kafka Connect REST API, which is similar to the approach in [Exercise 06](./../03/exercises.md#exercise-06---kafka-connect-and-hdfs).
+**Hint:** Then read the documentation here: [Configure the Sink Connector](https://www.mongodb.com/docs/kafka-connector/current/tutorials/sink-connector/#configure-the-sink-connector). The documentation suggests to post the configuration to the Kafka Connect REST API, which is similar to the approach in [Exercise 06](./../03/exercises.md#exercise-6---kafka-connect-and-hdfs).
 
 **NB:** Remember to setup port-forwarding for the Kafka Connect REST API.
 
@@ -556,9 +556,9 @@ You may find this documentation helpful to complete this exercise.
 
 We will now set up a highly available and scalable [Redis](https://redis.io/) cluster using [Redis Cluster](https://redis.io/docs/management/scaling/) and [Redis Sentinel](https://redis.io/docs/management/sentinel/). Redis is an open source, in-memory data structure store (key values), used as a database, cache, and message broker. Redis cluster is horizontally scalable and uses horizontal partitioning / sharding to store the different keys and values on different nodes.
 
-The cluster will consist of 6 nodes, 3 are the primary nodes, and the 3 other ones are replica nodes. The replicas will use [replication](https://redis.io/docs/management/replication/) and failover strategies in order to ensure data is available with minimal downtime.
+The cluster will consist of 6 nodes, 3 are the primary nodes, and the 3 other ones are replica nodes. The replicas will use [replication](https://redis.io/docs/management/replication/) and failover strategies in order to ensure data is available with minimal downtime. You can only write to primary nodes, no the replicas, but you can read from primary and replicas. This can also be used make the primary nodes focus on only writing data, and then move all reads to the replicas for maximum performance.
 
-We will use the [Bitnami Redis Cluster helm chart](helm install my-release oci://registry-1.docker.io/bitnamicharts/redis-cluster). To install the cluster, use the following command:
+We will use the [Bitnami Redis Cluster helm chart](https://artifacthub.io/packages/helm/bitnami/redis-cluster). To install the cluster, use the following command:
 
 ```text
 helm install redis oci://registry-1.docker.io/bitnamicharts/redis-cluster
@@ -590,10 +590,12 @@ redis-cli -c -h redis-redis-cluster -a $REDIS_PASSWORD
 
 You are now connected to the redis cluster! Try to create a key using the [`SET` command](https://redis.io/commands/set/). For example, `SET foo "bar"`. This will create / overwrite a key with the name "foo" and give it the value "bar".
 
-When you run commands that writes to Redis you should see that it tells you what host it wrote the key on.
+When you write commands to Redis you should see that it tells you what host it ran the command on. This is because the keys are sharded accross the redis nodes based on the key used. So if you write using the key `foo` and then get the key again, it should redirect you to the same node.
 
 Try to compare the IP address to the IPs of the pods inside the Kubernetes cluster. Use the command `kubectl get pods -l app.kubernetes.io/instance=redis -o wide`. You should then be able to see what pod the value was written to by comparing the IPs.
 
 Because the redis cluster has replicas, then if a primary node fails, then a replica will be promoted. Try to delete the pod that you just wrote the value to and then try to get the key again using the command: `GET foo`.
 
 You should see that you are still able to get the key even though the primary node was killed. This is very cool 😎.
+
+**Task:** What tactics does Redis Cluster + Redis Sentinel use?
